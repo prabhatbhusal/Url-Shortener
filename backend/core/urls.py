@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+    path('shortenurl/',ShortenURL.as_view()),
+    path('<str:alias>/',RedirectURL.as_view()),
+    path('urls/',URLList.as_view()),
+    path('analytics/',Analytics.as_view())
 ]
