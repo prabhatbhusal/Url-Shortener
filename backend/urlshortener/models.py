@@ -1,3 +1,5 @@
+from ipaddress import ip_address
+
 from django.db import models
 
 # Create your models here.
@@ -10,4 +12,7 @@ class URL(models.Model):
 class Clicked(models.Model):
     url=models.ForeignKey(URL, on_delete=models.CASCADE) 
     date_click=models.DateTimeField(auto_now_add=True)
-    
+
+class RateLimiterLog(models.Model):
+    ip_address=models.GenericIPAddressField()
+    timestamps=models.DateTimeField(auto_now_add=True)
