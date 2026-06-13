@@ -9,9 +9,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
-from datetime import timezone, timedelta, datetime
+from datetime import  timedelta, datetime
 from django.db.models import Count
-from backend.urlshortener import serializers
+from urlshortener import serializers
 #######################################
 ########################################
 
@@ -20,12 +20,12 @@ def check_rate_limiter(request):
     
     ip=request.META.get("HTTP_X_FORWARDED_FOR") or request.META.get("REMOTE_ADDR")##get IPAddress of the client
     minute_get=timezone.now()-timedelta(seconds=60)
-    count = RateLimiterLog.objects.filter(ip_address=ip,timestamp__gte=minute_get).count()
-    previous_time= RateLimiterLog.objects.filter(ip_address=ip,timestamp__gte=minute_get).order_by('timestamp').first()
+    count = RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).count()
+    previous_time= RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).order_by('timestamps').first()
     
     if count>=5:
-        timestamp_remain=60 - (timezone.now() - previous_time.timestamp).total_seconds()
-        return int(timestamp_remain)
+        timestamps_remain=60 - (timezone.now() - previous_time.timestamps).total_seconds()
+        return int(timestamps_remain)
     else:
         RateLimiterLog.objects.create(ip_address=ip)
         return None
