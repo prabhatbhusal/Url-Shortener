@@ -4,7 +4,7 @@ const Home = () => {
     const [url, setUrl] = useState("");
     const [result, setResult] = useState("");
     const [countdown, setCountdown] = useState(0);
-    const [error, setError] = useState(false);
+    const [errors, setError] = useState(false);
     useEffect(() => {
         if (countdown > 0) {
             const timer = setInterval(() => {
@@ -18,8 +18,11 @@ const Home = () => {
     }
     async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
-        setResult("");
-        setError(false);
+        if (url.trim() === "") {
+            setError(true)
+            setResult("Please enter a URL")
+            return
+        }
         try {
             const response = await fetch("http://127.0.0.1:8000/api/shortenurl/", {
                 method: "POST",
@@ -44,15 +47,15 @@ const Home = () => {
             setResult("Please Try again later:Server/network error")
             setError(true)
         }
-
     }
 
     return (
         <>
             <section>
+                <div className="flex justify-center items-center py-5"><h1 className="text-bold text-2xl  bg-amber-500 rounded-full p-5 border-2 ">Shorten Your Url</h1></div>
                 <form
                     onSubmit={handleSubmit}
-                    className="flex items-center justify-center  "
+                    className="flex  items-center justify-center  "
                 >
                     <div className="p-5 ">
                         <label className="p-5 text-black">Please enter url:</label>
@@ -62,25 +65,27 @@ const Home = () => {
                             value={url}
                             onChange={handleChange}
                             placeholder="Enter Url"
-                            className="p-5 text-black border border-black rounded-2xl"
+                            className="p-5 text-blue-950 border-2 border-red-900  rounded-full"
                         />
                     </div>
-                    <input
+                    <button
                         type="submit"
-                        className="py-5 px-10 bg-blue-600 rounded-full hover:ease-in-out hover:transition-all hover:scale-110 hover:duration-500 text-white"
-                    />
+                        className="py-5 px-10 bg-red-500 hover:bg-red-900 rounded-full"
+                    >
+                        Submit
+                    </button>
                 </form>
-                {result && !error && (
+                {result && !errors && (
                     <a
-                        href={error ? "#" : `http://127.0.0.1:8000/api/${result}`}
+                        href={errors ? "#" : `http://127.0.0.1:8000/api/${result}`}
                         className="text-black justify-center items-center flex"
                     >
-                        {error ? "" : `127.0.0.1:8000/api/${result}`}
+                        {errors ? "" : `127.0.0.1:8000/api/${result}`}
                     </a>
                 )}
-                {error && (
+                {errors && (
                     <p className="text-black justify-center items-center flex">
-                        Url already shortened
+                        {result}
                     </p>
                 )}
                 {countdown > 0 && (
