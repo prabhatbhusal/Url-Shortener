@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import ShortenURL,RedirectURL,URLList,Analytics
-
+# Urls for different api
 urlpatterns = [
     path('shortenurl/',ShortenURL.as_view()),
     path('urls/',URLList.as_view()),

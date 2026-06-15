@@ -19,18 +19,18 @@ from urlshortener import serializers
 def check_rate_limiter(request):
     
     ip=request.META.get("HTTP_X_FORWARDED_FOR") or request.META.get("REMOTE_ADDR")##get IPAddress of the client
-    minute_get=timezone.now()-timedelta(seconds=60)
-    count = RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).count()
-    previous_time= RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).order_by('timestamps').first()
+    minute_get=timezone.now()-timedelta(seconds=60) ##determines minute
+    count = RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).count() #counts value
+    previous_time= RateLimiterLog.objects.filter(ip_address=ip,timestamps__gte=minute_get).order_by('timestamps').first() #determines previous time
     
     if count>=5:
         timestamps_remain=60 - (timezone.now() - previous_time.timestamps).total_seconds()
-        return int(timestamps_remain)
+        return int(timestamps_remain)# return remaining time
     else:
         RateLimiterLog.objects.create(ip_address=ip)
         return None
 
-class ShortenURL(APIView):
+class ShortenURL(APIView): #shorten url as well as provide checks rate limit exceed or not also use hashib to generate hash
     def post(self, request):
         result=check_rate_limiter(request)
         if result is not None:
@@ -51,7 +51,7 @@ class ShortenURL(APIView):
 ########################################
 
 
-class RedirectURL(APIView):
+class RedirectURL(APIView):#redirects url
     def get(self, request, alias):
         try:
             url = URL.objects.get(alias_value=alias)
@@ -63,16 +63,16 @@ class RedirectURL(APIView):
 ########################################
 
 
-class URLList(APIView):
+class URLList(APIView):# provide all stores url lists
     def get(self, request):
         urls = URL.objects.all()
         serializer = URLSerializer(urls, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK) # return json/dict data
 #######################################
 ########################################
 
 
-class Analytics(APIView):
+class Analytics(APIView): #analyses the total click in a date as well as data 
     def get(self, request, alias):
         try:
             url = URL.objects.get(alias_value=alias)
@@ -86,7 +86,7 @@ class Analytics(APIView):
             date_click__date__gte=seven_days
         ).values('date_click__date').annotate(clicks=Count('id'))
         
-        # Generate all 7 days ← new code starts here
+        # Generate all 7 days 
         all_days = []
         for i in range(7):
             day = (timezone.now().date() - timedelta(days=6-i))
