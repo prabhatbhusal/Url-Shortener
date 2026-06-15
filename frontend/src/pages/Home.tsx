@@ -53,80 +53,81 @@ const Home = () => {
     return (
         <>
             <section className="w-full bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-8">
-    
-    {/* 1. Header Banner */}
-    <div className="flex justify-center items-center mb-6">
-        <h1 className="font-bold text-2xl  text-slate-900 rounded-full px-8 py-3.5 border-2 border-red-500 shadow-md">
-            Url Shortener
-        </h1>
-    </div>
 
-    {/* */ }
-    <form
-        onSubmit={handleSubmit}
-        className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto mb-6"
-    >
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1">
-            <label className="text-sm font-semibold text-slate-600 whitespace-nowrap">
-                Please enter URL:
-            </label>
-            <input
-                type="text"
-                id="Url"
-                value={url}
-                onChange={handleChange}
-                placeholder="Enter Url (e.g., https://...)"
-                className="w-full px-5 py-3 text-slate-800 border-2 border-slate-200 focus:border-blue-500 rounded-xl outline-none transition-colors duration-200 shadow-inner text-sm"
-            />
-        </div>
-        <button
-            type="submit"
-            className="w-full sm:w-auto py-3 px-8 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-sm transition-colors duration-500 text-sm"
-        >
-            Shorten
-        </button>
-    </form>
+                {/* 1. Header Banner */}
+                <div className="flex justify-center items-center mb-6">
+                    <h1 className="font-bold text-2xl  text-slate-900 rounded-full px-8 py-3.5 border-2 border-red-500 shadow-md">
+                        Url Shortener
+                    </h1>
+                </div>
 
-    
-    <div className="flex flex-col items-center justify-center gap-3">
-        
-        
-        {result && !errors && (
-            <div className="bg-emerald-50 border border-emerald-200 px-5 py-3 rounded-lg flex items-center gap-2 shadow-sm animate-fade-in">
-                <span className="text-xs text-emerald-600 font-bold uppercase tracking-wider bg-emerald-100 px-2 py-0.5 rounded">Success</span>
-                <a
-                    href={errors ? "#" : `http://127.0.0.1:8000/api/${result}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-sm font-semibold text-emerald-700 hover:underline"
+                {/* */}
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-2xl mx-auto mb-6"
                 >
-                    {errors ? "" : `127.0.0.1:8000/api/${result}`}
-                </a>
-            </div>
-        )}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto flex-1">
+                        <label className="text-sm font-semibold text-slate-600 whitespace-nowrap">
+                            Please enter URL:
+                        </label>
+                        <input
+                            type="text"
+                            id="Url"
+                            value={url}
+                            onChange={handleChange}
+                            placeholder="Enter Url (e.g., https://...)"
+                            className="w-full px-5 py-3 text-slate-800 border-2 border-slate-200 focus:border-blue-500 rounded-xl outline-none transition-colors duration-200 shadow-inner text-sm"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full sm:w-auto py-3 px-8 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow-sm transition-colors duration-500 text-sm"
+                    >
+                        Shorten
+                    </button>
+                </form>
 
-        
-        {errors && (
-            <div className="bg-rose-50 border border-rose-200 px-5 py-3 rounded-lg flex items-center gap-2 text-sm font-medium text-rose-700 shadow-sm">
-                <span>❌ Error:</span>
-                <span>{result}</span>
-            </div>
-        )}
 
-        
-        {countdown > 0 && (
-            <div 
-                className={`px-5 py-3 bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium rounded-lg flex items-center gap-2 shadow-sm ${
-                    countdown > 0 ? "visible" : "hidden"
-                }`}
-            >
-                <span>⚠️</span>
-                <span>Rate limit cooldown active: <strong>{countdown} seconds remaining</strong></span>
-            </div>
-        )}
-        
-    </div>
-</section>
+                <div className="flex flex-col items-center justify-center gap-3">
+
+
+                    {/* 1. Success Output  */}
+                    {result && !errors && (
+                        <div className="bg-emerald-50 border border-emerald-200 px-5 py-3 rounded-lg flex items-center gap-2 shadow-sm animate-fade-in">
+                            <span className="text-xs text-emerald-600 font-bold uppercase tracking-wider bg-emerald-100 px-2 py-0.5 rounded">Success</span>
+                            <a
+                                href={`http://127.0.0.1:8000/api/${result}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-semibold text-emerald-700 hover:underline"
+                            >
+                                {`127.0.0.1:8000/api/${result}`}
+                            </a>
+                        </div>
+                    )}
+
+                    {/* 2. Error Output*/}
+                    {errors && (
+                        <div className="bg-rose-50 border border-rose-200 px-5 py-3 rounded-lg flex items-center gap-2 text-sm font-medium text-rose-700 shadow-sm">
+                            <span>❌ Error:</span>
+                            {/* Make sure your backend error message string is what actually prints here */}
+                            <span>{result || "Failed to generate short link."}</span>
+                        </div>
+                    )}
+
+
+                    {countdown > 0 && (
+                        <div
+                            className={`px-5 py-3 bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium rounded-lg flex items-center gap-2 shadow-sm ${countdown > 0 ? "visible" : "hidden"
+                                }`}
+                        >
+                            <span>⚠️</span>
+                            <span>Rate limit cooldown active: <strong>{countdown} seconds remaining</strong></span>
+                        </div>
+                    )}
+
+                </div>
+            </section>
         </>
     );
 };
