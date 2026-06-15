@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+
 const Home = () => {
     const [url, setUrl] = useState("");
     const [result, setResult] = useState("");
@@ -99,6 +100,7 @@ const Home = () => {
                         {countdown} seconds remaining
                     </h2>
                 )}
+                
             </section>
         </>
     );
