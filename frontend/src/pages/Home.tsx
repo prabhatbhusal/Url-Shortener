@@ -110,7 +110,7 @@ const Home = () => {
                     {errors && (
                         <div className="bg-rose-50 border border-rose-200 px-5 py-3 rounded-lg flex items-center gap-2 text-sm font-medium text-rose-700 shadow-sm">
                             <span>❌ Error:</span>
-                            {/* Make sure your backend error message string is what actually prints here */}
+                            
                             <span>{result || "Failed to generate short link."}</span>
                         </div>
                     )}
