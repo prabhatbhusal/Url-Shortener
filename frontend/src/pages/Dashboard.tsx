@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import type { URLItem } from '../@types/common.types'
 import Charts from "../components/Charts";
 const Dashboard = () => {
-    const [urls, seturls] = useState([])
+    const [urls, seturls] = useState<URLItem[]>([])
     const [selectedAlias, setSelectedAlias] = useState("")
     const [analytics, setAnalytics] = useState([])
     const [loading, setLoading] = useState(false)
@@ -17,10 +18,12 @@ const Dashboard = () => {
     }, []);
 
     function fetchData(alias:any) {
+        setLoading(true)
         setSelectedAlias(alias)
         fetch(`http://127.0.0.1:8000/api/analytics/${alias}/`)
             .then(response => response.json())
             .then(data => {
+                console.log("Analytics data:", data)
                 setAnalytics(data)
                 setLoading(false)
             });
@@ -35,7 +38,7 @@ const Dashboard = () => {
                     {urls.map((items, idx) =>
                         (<li key={idx} onClick={() => fetchData(items.alias_value)}>{items.url_entry}-{items.alias_value}</li>))}
                 </ul>
-                
+                {loading && <p>Loading ...</p>}
                 {analytics.length>0 && <Charts analytics={analytics} alias={selectedAlias}/>}            
                 {selectedAlias &&
                 <button onClick={()=>fetchData(selectedAlias)}>Refresh</button>
