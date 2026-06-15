@@ -79,6 +79,7 @@ const Home = () => {
                 {result && !errors && (
                     <a
                         href={errors ? "#" : `http://127.0.0.1:8000/api/${result}`}
+                        target="blank"
                         className="text-black justify-center items-center flex"
                     >
                         {errors ? "" : `127.0.0.1:8000/api/${result}`}

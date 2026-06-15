@@ -9,4 +9,9 @@ export default defineConfig({
     
     tailwindcss(),
   ],
+  server: {
+    headers: {
+      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline'; worker-src blob:;"
+    }
+  }
 })

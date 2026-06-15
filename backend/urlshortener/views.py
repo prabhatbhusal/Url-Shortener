@@ -78,9 +78,28 @@ class Analytics(APIView):
             url = URL.objects.get(alias_value=alias)
         except URL.DoesNotExist:
             return Response({'error': 'URL NOT FOUND'}, status=status.HTTP_404_NOT_FOUND)
-        seven_days = timezone.now().date()-timedelta(days=7)  # acquires 7 days
         
-        clicks = Clicked.objects.filter(url=url, date_click__date__gte=seven_days).values(
-            'date_click__date').annotate(clicks=Count('id'))
-
-        return Response(list(clicks), status=status.HTTP_200_OK)
+        seven_days = timezone.now().date() - timedelta(days=7)  # ← add back
+        
+        clicks = Clicked.objects.filter(
+            url=url, 
+            date_click__date__gte=seven_days
+        ).values('date_click__date').annotate(clicks=Count('id'))
+        
+        # Generate all 7 days ← new code starts here
+        all_days = []
+        for i in range(7):
+            day = (timezone.now().date() - timedelta(days=6-i))
+            all_days.append(str(day))
+        
+        clicks_dict = {
+            str(c['date_click__date']): c['clicks'] 
+            for c in clicks
+        }
+        
+        result = [
+            {'date': day, 'clicks': clicks_dict.get(day, 0)}
+            for day in all_days
+        ]
+        
+        return Response(result, status=status.HTTP_200_OK)
