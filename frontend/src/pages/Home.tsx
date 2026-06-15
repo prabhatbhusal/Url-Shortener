@@ -41,6 +41,7 @@ const Home = () => {
             } else if (response.status == 429) {
                 setCountdown(data.retry_after);
             } else if (response.status == 201) {
+                setError(false)
                 setResult(data.alias_value);
             }
         }
@@ -105,13 +106,19 @@ const Home = () => {
                             </a>
                         </div>
                     )}
+                    
 
+                
                     {/* 2. Error Output*/}
                     {errors && (
                         <div className="bg-rose-50 border border-rose-200 px-5 py-3 rounded-lg flex items-center gap-2 text-sm font-medium text-rose-700 shadow-sm">
                             <span>❌ Error:</span>
-                            
-                            <span>{result || "Failed to generate short link."}</span>
+                            <p className="justify-center items-center flex">
+
+                            {result}
+
+                        </p>
+                           
                         </div>
                     )}
 
