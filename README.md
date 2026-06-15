@@ -93,7 +93,7 @@ There are two way to run the this projects:Docker or in house Locally
 ---
 
 ## Rate Limiter Implementation
-    First of all, I tracked the client request,ipaddress and time to make sure whether client is from same IP address or not then the backend records the timestamp of each request and calculates the remaining wait time so that if the client enter's same or different urls 5 times within  1 minute of time then the API returns a 429 Too Many Requests response. which is too many request and in frontend a countdown timer of the remaining wait time is calculated based on the oldest request within the last 60 seconds then actual remaining time is provided. 
+- First of all, I tracked the client request,ipaddress and time to make sure whether client is from same IP address or not then the backend records the         timestamp of each request and calculates the remaining wait time so that if the client enter's same or different urls 5 times within  1 minute of time then the API returns a 429 Too Many Requests response. which is too many request and in frontend a countdown timer of the remaining wait time is calculated based on the oldest request within the last 60 seconds then actual remaining time is provided. 
 ---
 
 # API Documentation
