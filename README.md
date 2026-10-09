@@ -1,4 +1,6 @@
-# Url-Shortener
+<div align='center'>
+    
+<h1>Url-Shortener</h1>
 
 ## Description
 Url-Shortener is a Full Stack Project Developed By Er.Prabhat Bhusal. This project is developed using React and tailwind as frontend and Django-Rest Framework and Python as backend and uses Postgresql as database to store the link date and time as well as their hash value and how many times the user has clicked the url with hash value to showcase that in a chart within a week with a refresh button
@@ -116,3 +118,4 @@ Error code are HTTP_429_TOO_MANY_REQUESTS,HTTP_400_BAD_REQUEST,HTTP_201_CREATED.
 ### GET /api/analytics/{alias}/
 - Request:Whichever url the user clicks the chart asks for specific alias to look for click count and date
 - Response:Provides data to chartjs in which it displays click count and clicked date in graph.
+</div>
